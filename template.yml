@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2023-03-09
+AWSTemplateFormatVersion: 2010-09-09
 Description: deploy ec2 using cloudformtion
 Resources:
   EC2Instance:
