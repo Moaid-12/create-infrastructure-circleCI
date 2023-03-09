@@ -13,26 +13,48 @@ jobs:
 #                 --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
 #                 --region us-east-1
      
-  configure_infrastructure: 
+#   configure_infrastructure: 
+#     docker:
+#       - image: cimg/python:3.11.2
+#     steps:
+#       - checkout
+#       - add_ssh_keys:
+#               # You can get this ID in the section where you registered the SSH Key
+#               fingerprints: ["17:ad:46:99:4e:16:a7:f4:8c:f0:74:2f:c6:ee:47:28"] 
+#       - run:
+#           name: Install Ansible
+#           command: |
+#             pip install --user ansible
+#       - run:
+#           name: Run Playbook and Configure server
+#           command: |
+#            ansible-playbook -i inventory main.yml  
+           
+  create_simple_smokeTest:
     docker:
       - image: cimg/python:3.11.2
     steps:
       - checkout
-      - add_ssh_keys:
-              # You can get this ID in the section where you registered the SSH Key
-              fingerprints: ["17:ad:46:99:4e:16:a7:f4:8c:f0:74:2f:c6:ee:47:28"] 
       - run:
-          name: Install Ansible
+          name: Install Curl
           command: |
-            pip install --user ansible
+            apt install curl
       - run:
-          name: Run Playbook and Configure server
+          name: Run smokeTest
           command: |
-           ansible-playbook -i inventory main.yml  
+           URL="https://blog.udacity.com/"
+         # Test if website exists
+           if curl -s --head ${URL} 
+           then
+             return 0
+           else
+             return 1
+          fi
 workflows:
   my-workflow:
     jobs:
 #       - create_infrastructure
-      - configure_infrastructure
+#       - configure_infrastructure
 #           requires:
 #            - create_infrastructure
+        - create_simple_smokeTest
