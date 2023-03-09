@@ -32,7 +32,7 @@ jobs:
            
   create_simple_smokeTest:
     docker:
-      - image: cimg/python:3.11.2
+      - image: cimg/base
     steps:
       - checkout
       - run:
@@ -42,14 +42,14 @@ jobs:
       - run:
           name: Run smokeTest
           command: |
-           URL="https://blog.udacity.com/"
-         # Test if website exists
-           if curl -s --head ${URL} 
-           then
-             return 0
-           else
-             return 1
-          fi
+                URL="https://blog.udacity.com/"
+              # Test if website exists
+                if curl -s --head ${URL} 
+                then
+                  return 0
+                else
+                  return 1
+                fi
 workflows:
   my-workflow:
     jobs:
