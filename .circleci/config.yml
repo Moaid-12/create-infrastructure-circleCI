@@ -32,13 +32,13 @@ jobs:
            
   create_simple_smokeTest:
     docker:
-      - image: cimg/python:3.11.2
+      - image: alpine:latest
     steps:
       - checkout
       - run:
           name: Install Curl
           command: |
-            apt install curl
+            apk add --update curl
       - run:
           name: Run smokeTest
           command: |
